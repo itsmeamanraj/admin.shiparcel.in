@@ -60,6 +60,11 @@
                 </form>
 
                 <div class="d-flex flex-wrap align-items-center gap-3">
+                    <form id="csvExportForm" method="POST" action="{{ route('users.export.csv') }}">
+                        @csrf
+                        <input type="hidden" name="selected_user_ids" id="selected_user_ids">
+                        <button type="submit" style="display: none;" class="btn btn-sm btn-primary">Export CSV</button>
+                    </form>
 
                     <a href="{{route('users.create')}}" class="btn btn-sm btn-primary-600"><i class="ri-add-line"></i> Create User</a>
                 </div>
@@ -109,7 +114,8 @@
                         <tr>
                             <td>
                                 <div class="form-check style-check d-flex align-items-center">
-                                    <input class="form-check-input" type="checkbox" value="" id="check1">
+                                    <input class="form-check-input rowCheckbox" type="checkbox" value="{{ $user->id }}" id="checkbox-{{ $user->id }}">
+
                                     <label class="form-check-label" for="check1">
                                         {{ $i }}
                                     </label>
@@ -159,4 +165,72 @@
 
     </div>
 </div>
+<script>
+    var ORDER_CANCEL_URL = "{{ route('order.cancel') }}";
+    var ORDER_LABEL_URL = "{{ route('order.label-data') }}";
+    // var CSRF_TOKEN = "{{ csrf_token() }}";
+    const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkAll = document.getElementById('checkAll');
+        const checkboxes = document.querySelectorAll('.rowCheckbox');
+
+        // Select/Deselect All
+        checkAll.addEventListener('change', function () {
+            checkboxes.forEach(cb => cb.checked = checkAll.checked);
+        });
+
+        // If any single checkbox is unchecked, uncheck the #checkAll
+        // If all checkboxes are checked, check the #checkAll
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                const total = checkboxes.length;
+                const checked = document.querySelectorAll('.rowCheckbox:checked').length;
+
+                checkAll.checked = total === checked;
+            });
+        });
+    });
+</script>
+
+<script>
+    function getSelectedUserIds() {
+        return Array.from(document.querySelectorAll('.rowCheckbox:checked'))
+            .map(cb => cb.value);
+    }
+
+    document.getElementById('csvExportForm').addEventListener('submit', function (e) {
+        const selectedIds = getSelectedUserIds();
+
+        if (selectedIds.length === 0) {
+            e.preventDefault();
+            alert("Please select at least one user to export.");
+            return false;
+        }
+
+        document.getElementById('selected_user_ids').value = selectedIds.join(',');
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.rowCheckbox');
+        const exportBtn = document.querySelector('#csvExportForm button[type="submit"]');
+
+        function toggleExportButton() {
+            const selected = document.querySelectorAll('.rowCheckbox:checked');
+            exportBtn.style.display = selected.length > 0 ? 'inline-block' : 'none';
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', toggleExportButton);
+        });
+
+        // Also apply on "Select All" checkbox
+        const checkAll = document.getElementById('checkAll');
+        checkAll.addEventListener('change', toggleExportButton);
+    });
+</script>
+<script src="{{ asset('assets/js/order/app.js') }}"></script>
 @endsection

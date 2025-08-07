@@ -26,6 +26,12 @@ Route::prefix('admin')->group(function () {
         /**User Charges */
         Route::get('user-charges', [UserController::class, 'userCharges'])->name('user-charges');
         Route::patch('users/{user}/update-user-charges', [UserController::class, 'updateUserCharges'])->name('users.update-chargeable-amount');
+        Route::post('/users/export/csv', [UserController::class, 'user_exportCsv'])->name('users.export.csv');
+        Route::get('list-order', [UserController::class, 'list'])->name('list.order');
+        Route::get('/orders/{id}', [UserController::class, 'view'])->name('orders.view');
+        Route::post('cancel-order', [UserController::class, 'cancelOrder'])->name('order.cancel');
+        Route::post('order-label-data', [UserController::class, 'orderLabelData'])->name('order.label-data');
+        Route::post('/orders/export-csv', [UserController::class, 'exportCsv'])->name('orders.export.csv');
         Route::patch('/wallets/{wallet}/update-status', [WalletController::class, 'updateStatus'])->name('wallets.updateStatus');
         
         Route::get('user-weight-slab/{user_id}', [CourierRateController::class, 'userWeightSlab'])->name('user-weight-slab');

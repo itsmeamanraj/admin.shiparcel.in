@@ -18,21 +18,18 @@
                 </a>
             </li>
             <li class="sidebar-menu-group-title">Application</li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
-                    <span>Application</span>
-                </a>
-
-                <ul class="sidebar-submenu">
+           
                     <li>
                         <a href="{{route('users.index')}}"><i class="fa fa-users"></i>Users List</a>
                     </li>
                     <li class="mt-4">
-                        <a href="{{route('wallets.index')}}"><i class="fa fa-wallet"></i>Wallet Requests</a>
+                        <a href="{{route('list.order')}}"><iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>Shipments List</a>
+                    </li>
+                     <li class="mt-4">
+                        <a href="{{route('wallets.index')}}"><i class="fa fa-wallet"></i>                   
+                         Wallet Requests</a>
                     </li>
 
-                </ul>
                 <!-- <ul class="sidebar-submenu">
                     <li>
                         <a href="{{route('users.index')}}"><i class="fa fa-wallet"></i>Wallet Requests</a>
