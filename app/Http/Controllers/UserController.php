@@ -455,5 +455,53 @@ public function exportCsv(Request $request)
             'awbNumbers' => $awbNumbers
         ]);
     }
+     public function pincode()
+    {
+        return view('admin.pincode.index'); 
+    }
+
+
+public function uploadPincode(Request $request)
+{
+    $request->validate([
+        'multiple_shipment' => 'required|mimes:csv,txt',
+    ]);
+
+    $file = $request->file('multiple_shipment');
+    $fileHandle = fopen($file, 'r');
+
+    $header = fgetcsv($fileHandle);
+
+    $insertData = [];
+
+    while (($row = fgetcsv($fileHandle)) !== false) {
+        $pincode = trim($row[0]);
+        $courierId = trim($row[1]);
+
+        if ($pincode && $courierId) {
+            $exists = DB::table('pincode_couriers')
+                ->where('pincode', $pincode)
+                ->where('courier_id', $courierId)
+                ->exists();
+
+            if (!$exists) {
+                $insertData[] = [
+                    'pincode' => $pincode,
+                    'courier_id' => $courierId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+    }
+
+    fclose($fileHandle);
+
+    if (!empty($insertData)) {
+        DB::table('pincode_couriers')->insert($insertData);
+    }
+
+    return back()->with('success', 'Pincode-Courier data uploaded successfully.');
+}
 
 }

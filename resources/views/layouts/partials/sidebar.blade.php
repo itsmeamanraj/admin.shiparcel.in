@@ -29,6 +29,10 @@
                         <a href="{{route('wallets.index')}}"><i class="fa fa-wallet"></i>                   
                          Wallet Requests</a>
                     </li>
+                     <li class="mt-4">
+                        <a href="{{route('pincode')}}"><iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>                   
+                         Upload Pincode</a>
+                    </li>
 
                 <!-- <ul class="sidebar-submenu">
                     <li>
