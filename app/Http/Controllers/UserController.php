@@ -457,7 +457,7 @@ public function exportCsv(Request $request)
     }
      public function pincode()
     {
-        return view('admin.pincode.index'); 
+        return view('admin.pincode.index',['couriers' => CourierCompany::all()]); 
     }
 
 
