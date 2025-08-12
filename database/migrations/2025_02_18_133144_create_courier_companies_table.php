@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('courier_companies', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('image_url')->nullable();
             $table->boolean('status')->default(1); 
             $table->timestamps();
         });
