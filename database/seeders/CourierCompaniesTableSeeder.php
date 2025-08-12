@@ -22,7 +22,7 @@ class CourierCompaniesTableSeeder extends Seeder
             ],
             [
                 'name' => 'XpressBees',
-                'image_url' => 'assets/images/xpressbeez.png',
+                'image_url' => 'assets/images/xpressbees.png',
                 'status' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
