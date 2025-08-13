@@ -33,9 +33,13 @@ Route::prefix('admin')->group(function () {
         Route::post('order-label-data', [UserController::class, 'orderLabelData'])->name('order.label-data');
         Route::post('/orders/export-csv', [UserController::class, 'exportCsv'])->name('orders.export.csv');
         Route::get('pincode', [UserController::class, 'pincode'])->name('pincode');
-         Route::post('/upload/pincode', [UserController::class, 'uploadPincode'])->name('upload.pincode');
-        Route::patch('/wallets/{wallet}/update-status', [WalletController::class, 'updateStatus'])->name('wallets.updateStatus');
+        Route::post('/upload/pincode', [UserController::class, 'uploadPincode'])->name('upload.pincode');
 
+        Route::get('/users/{id}/wallet', [UserController::class, 'showwallet'])->name('users.wallet');
+        Route::put('/users/{id}/wallet', [UserController::class, 'updateWallet'])->name('users.wallet.update');
+
+        Route::patch('/wallets/{wallet}/update-status', [WalletController::class, 'updateStatus'])->name('wallets.updateStatus');
+       
         
         Route::get('user-weight-slab/{user_id}', [CourierRateController::class, 'userWeightSlab'])->name('user-weight-slab');
         Route::post('/admin/user-weight-slab/save', [CourierRateController::class, 'saveUserWeightSlab'])->name('save-weight-slabs');

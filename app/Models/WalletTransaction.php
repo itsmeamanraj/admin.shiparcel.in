@@ -17,7 +17,7 @@ class WalletTransaction extends Model
     public const STATUS_ORDER_FAILED = 105;
 
 
-    protected $fillable = ['user_id', 'invoice_number', 'name', 'issued_date', 'amount', 'status'];
+    protected $fillable = ['user_id', 'invoice_number', 'name', 'issued_date', 'amount', 'status', 'user_role'];
 
     public function user()
     {
