@@ -541,11 +541,11 @@ public function exportCsv(Request $request)
         // Create wallet transaction
         WalletTransaction::create([
             'user_id'        => $user->id,
-            'name'           => 'admin',
+            'name'           => 'Wallet Admin',
             'amount'         => $request->wallet_amount,
             'user_role'      => 'admin',
-            'issued_date'    => now()->toDateString(),
-            'invoice_number' => NULL
+            'issued_date'    => now(),
+            'invoice_number' => 'INV-' . strtoupper(uniqid())
         ]);
 
         DB::commit();
