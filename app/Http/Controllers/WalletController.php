@@ -111,4 +111,5 @@ class WalletController extends Controller
         $wallet->update(['status' => $request->status]);
         return redirect()->back()->with('success', 'Transaction status updated successfully.');
     }
+    
 }

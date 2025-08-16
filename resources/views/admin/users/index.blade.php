@@ -145,6 +145,11 @@
                                 <a title="Courier Rates" href="{{route('user-weight-slab',$user->id)}}" class="w-32-px h-32-px bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center">
                                     <iconify-icon icon="ic:round-settings" width="20" height="20"></iconify-icon>
                                 </a>
+
+                                 <a title="Wallet" href="{{ route('users.wallet', $user->id) }}"
+                                    class="w-32-px h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                                    <iconify-icon icon="mdi:wallet-outline" width="20" height="20"></iconify-icon>
+                                </a>
                             </td>
                         </tr>
                         @php $i++; @endphp

@@ -23,7 +23,7 @@
                 <li>-</li>
                 <li class="fw-medium">Users List</li>
             </ul>
-        </div>
+     </div>
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -64,37 +64,37 @@
                     </div>
 
                  {{-- Right: Courier List --}}
-<div class="col-md-6">
-    <div class="card h-100 shadow-sm">
-        <div class="card-header border-bottom bg-base py-3 px-4">
-            <span class="fw-semibold">Available Couriers</span>
-        </div>
-        <div class="card-body p-4">
-            @if(isset($couriers) && count($couriers))
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Courier Name</th>
-                                <th>Courier ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($couriers as $courier)
-                                <tr>
-                                    <td>{{ $courier->name }}</td>
-                                    <td>{{ $courier->id }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @else
-                <p class="text-muted">No couriers found.</p>
-            @endif
-        </div>
-    </div>
-</div>
+                    <div class="col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header border-bottom bg-base py-3 px-4">
+                                <span class="fw-semibold">Available Couriers</span>
+                            </div>
+                            <div class="card-body p-4">
+                                @if(isset($couriers) && count($couriers))
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Courier Name</th>
+                                                    <th>Courier ID</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($couriers as $courier)
+                                                    <tr>
+                                                        <td>{{ $courier->name }}</td>
+                                                        <td>{{ $courier->id }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <p class="text-muted">No couriers found.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

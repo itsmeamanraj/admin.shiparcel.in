@@ -8,6 +8,8 @@ use App\Models\CourierCompany;
 use App\Models\CourierWeightSlab;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use App\Models\UserCourierWeightSlab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -461,47 +463,103 @@ public function exportCsv(Request $request)
     }
 
 
-public function uploadPincode(Request $request)
-{
-    $request->validate([
-        'multiple_shipment' => 'required|mimes:csv,txt',
-    ]);
+    public function uploadPincode(Request $request)
+    {
+        $request->validate([
+            'multiple_shipment' => 'required|mimes:csv,txt',
+        ]);
 
-    $file = $request->file('multiple_shipment');
-    $fileHandle = fopen($file, 'r');
+        $file = $request->file('multiple_shipment');
+        $fileHandle = fopen($file, 'r');
 
-    $header = fgetcsv($fileHandle);
+        $header = fgetcsv($fileHandle);
 
-    $insertData = [];
+        $insertData = [];
 
-    while (($row = fgetcsv($fileHandle)) !== false) {
-        $pincode = trim($row[0]);
-        $courierId = trim($row[1]);
+        while (($row = fgetcsv($fileHandle)) !== false) {
+            $pincode = trim($row[0]);
+            $courierId = trim($row[1]);
 
-        if ($pincode && $courierId) {
-            $exists = DB::table('pincode_couriers')
-                ->where('pincode', $pincode)
-                ->where('courier_id', $courierId)
-                ->exists();
+            if ($pincode && $courierId) {
+                $exists = DB::table('pincode_couriers')
+                    ->where('pincode', $pincode)
+                    ->where('courier_id', $courierId)
+                    ->exists();
 
-            if (!$exists) {
-                $insertData[] = [
-                    'pincode' => $pincode,
-                    'courier_id' => $courierId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                if (!$exists) {
+                    $insertData[] = [
+                        'pincode' => $pincode,
+                        'courier_id' => $courierId,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
         }
+
+        fclose($fileHandle);
+
+        if (!empty($insertData)) {
+            DB::table('pincode_couriers')->insert($insertData);
+        }
+
+        return back()->with('success', 'Pincode-Courier data uploaded successfully.');
+    }
+    public function showwallet($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.wallet', compact('user'));
     }
 
-    fclose($fileHandle);
 
-    if (!empty($insertData)) {
-        DB::table('pincode_couriers')->insert($insertData);
+  public function updateWallet(Request $request, $id)
+{
+    $request->validate([
+        'wallet_amount' => 'required|numeric',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+        $user = User::findOrFail($id);
+
+        $wallet = Wallet::where('user_id', $user->id)->first();
+        if ($wallet) {
+            // Update existing wallet
+            $wallet->amount = $wallet->amount + $request->wallet_amount;
+            $wallet->save();
+        } else {
+            // Create new wallet
+            $wallet = Wallet::create([
+                'user_id'    => $user->id,
+                'amount'     => $request->wallet_amount,
+                'promo_code' => null,
+                'status'     => 1
+            ]);
+        }
+
+        // Create wallet transaction
+        WalletTransaction::create([
+            'user_id'        => $user->id,
+            'name'           => 'Wallet Admin',
+            'amount'         => $request->wallet_amount,
+            'user_role'      => 'admin',
+            'issued_date'    => now(),
+            'invoice_number' => 'INV-' . strtoupper(uniqid())
+        ]);
+
+        DB::commit();
+
+        return redirect()
+            ->route('users.wallet', $user->id)
+            ->with('success', 'Wallet updated successfully. Total balance: ' . $wallet->amount);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()
+            ->back()
+            ->with('error', 'Something went wrong: ' . $e->getMessage());
     }
-
-    return back()->with('success', 'Pincode-Courier data uploaded successfully.');
 }
+
 
 }
