@@ -15,16 +15,18 @@ class ShipmentStatusSeeder extends Seeder
     public function run(): void
     {
         $companies = [
-            ['status' => 221, 'status_code' => 'Booked', 'created_at' => Carbon::now()],
-            ['status' => 222, 'status_code' => 'Manifest', 'created_at' => Carbon::now()],
-            ['status' => 223, 'status_code' => 'N/A', 'created_at' => Carbon::now()],
-            ['status' => 224, 'status_code' => 'N/A', 'created_at' => Carbon::now()],
-            ['status' => 225, 'status_code' => 'N/A', 'created_at' => Carbon::now()],
-            ['status' => 226, 'status_code' => 'Delivered', 'created_at' => Carbon::now()],
-            ['status' => 227, 'status_code' => 'Failed', 'created_at' => Carbon::now()],
-            ['status' => 228, 'status_code' => 'N/A', 'created_at' => Carbon::now()],
-            ['status' => 229, 'status_code' => 'Cancelled', 'created_at' => Carbon::now()],
-        ];
+                    ['status' => 221, 'status_code' => 'Booked',     'created_at' => Carbon::now()],
+                    ['status' => 222, 'status_code' => 'Manifest',   'created_at' => Carbon::now()],
+                    ['status' => 223, 'status_code' => 'In Transit', 'created_at' => Carbon::now()],
+                    ['status' => 224, 'status_code' => 'Out for Delivery', 'created_at' => Carbon::now()],
+                    ['status' => 225, 'status_code' => 'RTO Initiated', 'created_at' => Carbon::now()],
+                    ['status' => 226, 'status_code' => 'Delivered',  'created_at' => Carbon::now()],
+                    ['status' => 227, 'status_code' => 'Failed',     'created_at' => Carbon::now()],
+                    ['status' => 228, 'status_code' => 'Delayed',    'created_at' => Carbon::now()],
+                    ['status' => 229, 'status_code' => 'Cancelled',  'created_at' => Carbon::now()],
+                    ['status' => 230, 'status_code' => 'Lost',       'created_at' => Carbon::now()],
+                     ['status' => 231, 'status_code' => 'out_for_pickup',  'created_at' => Carbon::now()],
+                ];
 
         ShipmentStatus::insert($companies);
     }

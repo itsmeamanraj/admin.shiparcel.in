@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/orders/export-csv', [UserController::class, 'exportCsv'])->name('orders.export.csv');
         Route::get('pincode', [UserController::class, 'pincode'])->name('pincode');
         Route::post('/upload/pincode', [UserController::class, 'uploadPincode'])->name('upload.pincode');
+         Route::get('traking', [UserController::class, 'showtraking'])->name('traking');
 
         Route::get('/users/{id}/wallet', [UserController::class, 'showwallet'])->name('users.wallet');
         Route::put('/users/{id}/wallet', [UserController::class, 'updateWallet'])->name('users.wallet.update');

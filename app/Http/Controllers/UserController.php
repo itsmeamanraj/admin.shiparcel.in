@@ -560,6 +560,9 @@ public function exportCsv(Request $request)
             ->with('error', 'Something went wrong: ' . $e->getMessage());
     }
 }
-
+public function showtraking(){
+    
+    return view('admin.users.traking');
+}
 
 }
